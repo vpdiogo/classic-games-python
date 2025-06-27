@@ -83,6 +83,33 @@ class TestPosition(unittest.TestCase):
         pos = Position(5, 10)
         self.assertEqual(repr(pos), "Position(5, 10)")
 
+    def test_position_wrap_around(self):
+        """Test position wrap around at boundaries"""
+        # Test wrapping at right edge
+        pos = Position(CONFIG.grid_width, 5)
+        wrapped = pos.wrap_around()
+        self.assertEqual(wrapped, Position(0, 5))
+
+        # Test wrapping at left edge
+        pos = Position(-1, 5)
+        wrapped = pos.wrap_around()
+        self.assertEqual(wrapped, Position(CONFIG.grid_width - 1, 5))
+
+        # Test wrapping at bottom edge
+        pos = Position(5, CONFIG.grid_height)
+        wrapped = pos.wrap_around()
+        self.assertEqual(wrapped, Position(5, 0))
+
+        # Test wrapping at top edge
+        pos = Position(5, -1)
+        wrapped = pos.wrap_around()
+        self.assertEqual(wrapped, Position(5, CONFIG.grid_height - 1))
+
+        # Test no wrapping for valid positions
+        pos = Position(5, 5)
+        wrapped = pos.wrap_around()
+        self.assertEqual(wrapped, Position(5, 5))
+
 
 class TestSnake(unittest.TestCase):
     """Tests for Snake class"""
@@ -152,21 +179,62 @@ class TestSnake(unittest.TestCase):
         self.snake.direction = Direction.UP
         self.assertFalse(self.snake.change_direction(Direction.DOWN))
 
-    def test_collision_with_walls(self):
-        """Test wall collision detection"""
-        # Move snake to wall positions
+    def test_no_wall_collision_with_wrap_around(self):
+        """Test that walls no longer cause collision (wrap around instead)"""
+        # Place snake at edge positions - should not collide anymore
         test_cases = [
-            Position(-1, 5),  # Left wall
-            Position(CONFIG.grid_width, 5),  # Right wall
-            Position(5, -1),  # Top wall
-            Position(5, CONFIG.grid_height),  # Bottom wall
+            Position(-1, 5),  # Left edge (wrapped)
+            Position(CONFIG.grid_width, 5),  # Right edge (wrapped)
+            Position(5, -1),  # Top edge (wrapped)
+            Position(5, CONFIG.grid_height),  # Bottom edge (wrapped)
         ]
 
-        for wall_pos in test_cases:
-            self.snake.body[0] = wall_pos
-            self.assertTrue(
-                self.snake.check_collision(), f"Should collide at {wall_pos}"
+        for edge_pos in test_cases:
+            # Move snake to edge and then move it
+            self.snake.body[0] = edge_pos
+            self.snake.move()  # This should wrap around, not collide
+            self.assertFalse(
+                self.snake.check_collision(),
+                f"Should not collide at {edge_pos} with wrap-around"
             )
+
+    def test_snake_wrap_around_movement(self):
+        """Test snake wraps around when hitting boundaries"""
+        # Test wrapping from right to left
+        self.snake.body[0] = Position(CONFIG.grid_width - 1, 5)
+        self.snake.direction = Direction.RIGHT
+        self.snake.next_direction = Direction.RIGHT
+
+        self.snake.move()
+
+        # Head should wrap to left side
+        self.assertEqual(self.snake.body[0], Position(0, 5))
+
+        # Test wrapping from bottom to top
+        self.snake.body[0] = Position(5, CONFIG.grid_height - 1)
+        self.snake.direction = Direction.DOWN
+        self.snake.next_direction = Direction.DOWN
+
+        self.snake.move()
+
+        # Head should wrap to top
+        self.assertEqual(self.snake.body[0], Position(5, 0))
+
+    # def test_collision_with_walls(self):
+    #     """Test wall collision detection"""
+    #     # Move snake to wall positions
+    #     test_cases = [
+    #         Position(-1, 5),  # Left wall
+    #         Position(CONFIG.grid_width, 5),  # Right wall
+    #         Position(5, -1),  # Top wall
+    #         Position(5, CONFIG.grid_height),  # Bottom wall
+    #     ]
+
+    #     for wall_pos in test_cases:
+    #         self.snake.body[0] = wall_pos
+    #         self.assertTrue(
+    #             self.snake.check_collision(), f"Should collide at {wall_pos}"
+    #         )
 
     def test_collision_with_self(self):
         """Test self-collision detection"""

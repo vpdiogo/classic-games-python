@@ -60,6 +60,12 @@ class Position:
         """Calculate Manhattan distance to another position"""
         return abs(self.x - other.x) + abs(self.y - other.y)
 
+    def wrap_around(self) -> 'Position':
+        """Wrap position around game boundaries (teleport to opposite side)"""
+        new_x = self.x % CONFIG.grid_width
+        new_y = self.y % CONFIG.grid_height
+        return Position(new_x, new_y)
+
 
 class Food:
     """Represents food in the game"""
@@ -151,6 +157,9 @@ class Snake:
         # Calculate new head position
         new_head = self.body[0] + self.direction
 
+        # Handle wrap-around at boundaries
+        new_head = new_head.wrap_around()
+
         # Add new head
         self.body.insert(0, new_head)
 
@@ -191,9 +200,9 @@ class Snake:
         head = self.body[0]
 
         # Check wall collision
-        if not head.is_within_bounds():
-            logger.info(f"Snake hit wall at {head}")
-            return True
+        # if not head.is_within_bounds():
+        #     logger.info(f"Snake hit wall at {head}")
+        #     return True
 
         # Check self collision
         if head in self.body[1:]:
