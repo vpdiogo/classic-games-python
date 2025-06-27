@@ -49,13 +49,6 @@ class Position:
         """Convert grid position to pixel coordinates"""
         return (self.x * CONFIG.GRID_SIZE, self.y * CONFIG.GRID_SIZE)
 
-    def is_within_bounds(self) -> bool:
-        """Check if position is within game boundaries"""
-        return (
-            0 <= self.x < CONFIG.grid_width
-            and 0 <= self.y < CONFIG.grid_height
-        )
-
     def distance_to(self, other: 'Position') -> float:
         """Calculate Manhattan distance to another position"""
         return abs(self.x - other.x) + abs(self.y - other.y)
@@ -65,6 +58,15 @@ class Position:
         new_x = self.x % CONFIG.grid_width
         new_y = self.y % CONFIG.grid_height
         return Position(new_x, new_y)
+
+    def is_out_of_bounds(self) -> bool:
+        """Check if position is outside game boundaries"""
+        return (
+            self.x < 0
+            or self.x >= CONFIG.grid_width
+            or self.y < 0
+            or self.y >= CONFIG.grid_height
+        )
 
 
 class Food:
@@ -157,8 +159,9 @@ class Snake:
         # Calculate new head position
         new_head = self.body[0] + self.direction
 
-        # Handle wrap-around at boundaries
-        new_head = new_head.wrap_around()
+        # Handle boundaries based on configuration
+        if not CONFIG.WALL_COLLISION:
+            new_head = new_head.wrap_around()
 
         # Add new head
         self.body.insert(0, new_head)
@@ -199,10 +202,10 @@ class Snake:
         """Check if snake has collided with walls or itself"""
         head = self.body[0]
 
-        # Check wall collision
-        # if not head.is_within_bounds():
-        #     logger.info(f"Snake hit wall at {head}")
-        #     return True
+        # Check wall collision only if enabled
+        if CONFIG.WALL_COLLISION and head.is_out_of_bounds():
+            logger.info(f"Snake hit wall at {head}")
+            return True
 
         # Check self collision
         if head in self.body[1:]:

@@ -11,6 +11,7 @@ from .game_objects import Snake, Food
 from .input_handler import InputHandler, InputAction
 from .high_score import HighScoreManager
 from .logger import logger
+from .menu import MenuManager, MenuState
 
 
 class GameState(Enum):
@@ -86,6 +87,8 @@ class SnakeGame:
         # Process actions based on game state
         if self.state == GameState.GAME_OVER:
             return self._handle_game_over_actions(actions)
+        elif self.state == GameState.PAUSED:
+            return self._handle_paused_actions(actions)
         else:
             return self._handle_playing_actions(actions)
 
@@ -93,8 +96,12 @@ class SnakeGame:
         """Handle actions during game over state"""
         if InputAction.RESTART in actions:
             self.reset_game()
+            # Continue the game session instead of returning to menu
+            return True
         elif InputAction.QUIT in actions:
-            return False
+            # Return to menu when Q is pressed in game over
+            self.state = GameState.MENU
+            return False  # This will break the game loop and return to menu
         return True
 
     def _handle_playing_actions(self, actions: set) -> bool:
@@ -124,8 +131,26 @@ class SnakeGame:
         elif InputAction.RESTART in actions:
             self.reset_game()
 
+        # Remove QUIT handling from playing state - Q should not quit during gameplay
+        # elif InputAction.QUIT in actions:
+        #     return False
+
+        return True
+
+    def _handle_paused_actions(self, actions: set) -> bool:
+        """Handle actions during paused state"""
+        if InputAction.PAUSE in actions:
+            # Unpause the game
+            self.state = GameState.PLAYING
+            self.snake.next_direction = self.snake.direction
+            logger.info("Game unpaused")
         elif InputAction.QUIT in actions:
+            # Allow quitting from pause menu
+            self.state = GameState.MENU
             return False
+        elif InputAction.RESTART in actions:
+            # Allow restarting from pause
+            self.reset_game()
 
         return True
 
@@ -223,21 +248,32 @@ class SnakeGame:
                 "NEW HIGH SCORE!", CONFIG.WINDOW_HEIGHT // 2 + 10, COLORS.BLUE
             )
 
-        # Instructions
+        # Instructions - updated to mention menu
         self.draw_centered_text(
-            "Press R to restart or Q to quit",
+            "Press R to restart or Q to return to menu",
             CONFIG.WINDOW_HEIGHT // 2 + 50,
             font=self.small_font,
         )
 
     def draw_pause_screen(self) -> None:
         """Draw pause screen"""
+        # Semi-transparent overlay
+        overlay = pygame.Surface((CONFIG.WINDOW_WIDTH, CONFIG.WINDOW_HEIGHT))
+        overlay.set_alpha(128)
+        overlay.fill(COLORS.BLACK)
+        self.screen.blit(overlay, (0, 0))
+
         self.draw_centered_text(
-            "PAUSED", CONFIG.WINDOW_HEIGHT // 2 - 20, COLORS.BLUE
+            "PAUSED", CONFIG.WINDOW_HEIGHT // 2 - 40, COLORS.BLUE
         )
         self.draw_centered_text(
             "Press SPACE to continue",
-            CONFIG.WINDOW_HEIGHT // 2 + 20,
+            CONFIG.WINDOW_HEIGHT // 2,
+            font=self.small_font,
+        )
+        self.draw_centered_text(
+            "Press R to restart or Q to return to menu",
+            CONFIG.WINDOW_HEIGHT // 2 + 30,
             font=self.small_font,
         )
 
@@ -263,29 +299,70 @@ class SnakeGame:
         # Update display
         pygame.display.flip()
 
-    def run(self) -> None:
-        """Main game loop"""
-        logger.info("Starting game loop")
-        running = True
+    def run_game_session(self) -> str:
+        """Run a single game session and return next state"""
+        logger.info("Starting game session")
 
+        # Reset game state
+        self.reset_game()
+
+        running = True
         try:
             while running:
                 running = self.handle_events()
+                if not running:
+                    # Check if we should return to menu or quit entirely
+                    if self.state == GameState.MENU:
+                        return MenuState.MAIN_MENU.value
+                    else:
+                        return MenuState.QUIT.value
+
                 self.update()
                 self.draw()
                 self.clock.tick(CONFIG.FPS)
 
         except KeyboardInterrupt:
-            logger.info("Game interrupted by user")
-
+            logger.info("Game session interrupted by user")
+            return MenuState.QUIT.value
         except Exception as e:
-            logger.error(f"Unexpected error in game loop: {e}")
-            raise
+            logger.error(f"Unexpected error in game session: {e}")
+            return MenuState.QUIT.value
 
+        # Fallback - return to main menu
+        return MenuState.MAIN_MENU.value
+
+    def run(self) -> None:
+        """Main game loop with menu integration"""
+        logger.info("Starting Snake Game with menu system")
+
+        # Initialize menu manager
+        menu_manager = MenuManager(self.screen)
+        current_state = MenuState.MAIN_MENU.value
+
+        try:
+            while current_state != MenuState.QUIT.value:
+                if current_state == MenuState.GAME.value:
+                    # Run game session
+                    current_state = self.run_game_session()
+                else:
+                    # Run menu system
+                    current_state = menu_manager.run()
+
+        except KeyboardInterrupt:
+            logger.info("Game interrupted by user")
+        except Exception as e:
+            logger.error(f"Unexpected error in main loop: {e}")
+            raise
         finally:
-            logger.info("Shutting down game")
+            logger.info("Shutting down Snake Game")
             pygame.quit()
             sys.exit()
+
+
+def run_game_only() -> str:
+    """Run game without menu system (for direct game launch)"""
+    game = SnakeGame()
+    return game.run_game_session()
 
 
 def main():
