@@ -4,8 +4,8 @@ Unit tests for input handler
 
 import unittest
 import pygame
-from src.input_handler import InputHandler, InputAction
-from src.game_objects import Direction
+from snake_game.input_handler import InputHandler, InputAction
+from snake_game.game_objects import Direction
 
 
 class TestInputHandler(unittest.TestCase):

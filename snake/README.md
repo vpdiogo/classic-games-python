@@ -1,6 +1,19 @@
-# Snake Game
+# Snake Game (Alpha)
+
+🚧 **This is an alpha version** - Features are complete but may contain bugs. Please report any issues!
+
+## Version: 0.1.0-alpha.1
 
 A modern implementation of the classic Snake game built with Python and Pygame, featuring a complete menu system, configurable settings, high score tracking, and both wall collision and wrap-around gameplay modes.
+
+### Alpha Status
+- ✅ Core gameplay implemented
+- ✅ Menu system working
+- ✅ Configuration system
+- ✅ High scores
+- ⚠️  May contain bugs
+- ⚠️  APIs may change
+- 🧪 Feedback welcome!
 
 ## Features
 

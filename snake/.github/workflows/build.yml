@@ -1,0 +1,49 @@
+name: Build Snake Game
+
+on:
+  push:
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: [3.8, 3.9, '3.10', '3.11']
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build pytest pyinstaller
+        pip install -r requirements.txt
+    
+    - name: Run tests
+      run: |
+        pytest tests/
+    
+    - name: Build package
+      run: |
+        python -m build
+    
+    - name: Build executable
+      run: |
+        pyinstaller --onefile --name SnakeGame snake_game/main.py
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: snake-game-${{ matrix.os }}-py${{ matrix.python-version }}
+        path: |
+          dist/

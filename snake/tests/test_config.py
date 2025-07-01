@@ -6,7 +6,7 @@ import unittest
 import tempfile
 import os
 import json
-from src.config import GameConfig
+from snake_game.config import GameConfig
 
 
 class TestGameConfig(unittest.TestCase):

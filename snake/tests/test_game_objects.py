@@ -4,8 +4,8 @@ Unit tests for game objects
 
 import unittest
 import pygame
-from src.game_objects import Position, Direction, Snake, Food
-from src.config import CONFIG
+from snake_game.game_objects import Position, Direction, Snake, Food
+from snake_game.config import CONFIG
 
 
 class TestPosition(unittest.TestCase):
