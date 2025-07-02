@@ -15,12 +15,14 @@ repos:
     hooks:
       - id: black
         language_version: python3
+        args: [--line-length=80]
 
   - repo: https://github.com/pycqa/flake8
     rev: 4.0.1
     hooks:
       - id: flake8
         additional_dependencies: [flake8-docstrings]
+        args: [--max-line-length=80]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v0.950
@@ -33,27 +35,30 @@ repos:
     hooks:
       - id: tests
         name: Run tests
-        entry: pytest
+        entry: bash
         language: system
         pass_filenames: false
         always_run: true
-        args: [tests/, -q]
+        args: [-c, "cd snake && pytest tests/ -q"]
 
       - id: check-version
         name: Check version consistency
-        entry: python
+        entry: bash
         language: system
         pass_filenames: false
         always_run: true
-        args: 
+        args:
           - -c
           - |
+            cd snake
+            python -c "
             import snake_game
             with open('setup.py') as f:
-                setup_content = f.read()
-            if snake_game.__version__ not in setup_content:
-                raise ValueError(f"Version mismatch: {snake_game.__version__} not found in setup.py")
-            print(f"✅ Version {snake_game.__version__} is consistent")
+                pyproject_content = f.read()
+            if snake_game.__version__ not in pyproject_content:
+                raise ValueError(f'Version mismatch: {snake_game.__version__} not found in pyproject.toml')
+            print(f'✅ Version {snake_game.__version__} is consistent')
+            "
 
 ci:
   autofix_commit_msg: |

@@ -5,19 +5,49 @@ set -e  # Exit on any error
 
 echo "🚀 Setting up Snake Game development environment..."
 
-# Check if we're in a virtual environment
+# Function to check if we're in the project root
+check_project_root() {
+    if [ ! -f "pyproject.toml" ] && [ ! -f "setup.py" ]; then
+        echo "❌ Please run this script from the project root directory"
+        exit 1
+    fi
+}
+
+# Check if we're in the right directory
+check_project_root
+
+# Check if we're in a virtual environment, if not create one
 if [[ "$VIRTUAL_ENV" == "" ]]; then
-    echo "⚠️  Warning: Not in a virtual environment"
-    echo "   Consider running: python -m venv .venv && source .venv/bin/activate"
+    if [ ! -d ".venv" ]; then
+        echo "📁 Creating virtual environment..."
+        python -m venv .venv
+        echo "   ✅ Virtual environment created at .venv/"
+    else
+        echo "📁 Virtual environment found at .venv/"
+    fi
+
+    echo "🔄 Activating virtual environment..."
+    source .venv/bin/activate
+    echo "   ✅ Virtual environment activated"
+
+    # Update pip to latest version
+    echo "⬆️  Updating pip..."
+    pip install --upgrade pip
+else
+    echo "✅ Already in virtual environment: $VIRTUAL_ENV"
 fi
+
+# Install essential build tools first
+echo "🔧 Installing essential build tools..."
+pip install wheel setuptools build
 
 # Install development dependencies
 echo "📦 Installing development dependencies..."
 pip install -e .[dev]
 
 # Install additional development tools
-echo "🔧 Installing development tools..."
-pip install black flake8 mypy pytest-cov pre-commit build twine pyinstaller bumpversion
+echo "🔧 Installing additional development tools..."
+pip install black flake8 mypy pytest-cov pre-commit twine pyinstaller bumpversion psutil
 
 # Setup pre-commit hooks if .pre-commit-config.yaml exists
 if [ -f .pre-commit-config.yaml ]; then
@@ -68,6 +98,11 @@ fi
 echo ""
 echo "🎉 Development environment setup complete!"
 echo ""
+if [[ "$VIRTUAL_ENV" == *".venv"* ]]; then
+    echo "💡 To activate the environment in future sessions:"
+    echo "   source .venv/bin/activate"
+    echo ""
+fi
 echo "Quick start commands:"
 echo "  python run_snake.py    # Test the game"
 echo "  pytest tests/          # Run tests"

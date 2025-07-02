@@ -49,16 +49,16 @@ check: ## Run quality checks
 
 lint: ## Run linting only
 	@echo "🔎 Running linting..."
-	@$(FLAKE8) snake_game/ tests/
+	@$(FLAKE8) --max-line-length=80 snake_game/ tests/
 	@$(MYPY) snake_game/ --ignore-missing-imports
 
 format: ## Format code with Black
 	@echo "🎨 Formatting code..."
-	@$(BLACK) snake_game/ tests/
+	@$(BLACK) --line-length 80 snake_game/ tests/ *.py
 
 format-check: ## Check if code is formatted
 	@echo "🎨 Checking code formatting..."
-	@$(BLACK) --check snake_game/ tests/
+	@$(BLACK) --check --line-length 80 snake_game/ tests/ *.py
 
 build: ## Build package and executable
 	@echo "🏗️ Building package..."
