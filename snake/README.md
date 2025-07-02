@@ -85,6 +85,13 @@ cd snake
 python run_snake.py
 ```
 
+## Documentation
+
+- **📖 Installation Guide**: See [`docs/INSTALL.md`](docs/INSTALL.md) for detailed setup instructions
+- **🔧 Development Guide**: See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for complete development workflow
+- **⚡ Quick Reference**: See [`docs/QUICK_REFERENCE.md`](docs/QUICK_REFERENCE.md) for command reference
+- **📋 Changelog**: See [`CHANGELOG.md`](CHANGELOG.md) for version history
+
 ## Development Workflow
 
 ### Quick Start for Developers
@@ -112,8 +119,8 @@ make release       # Full release process
 - **Version management** with bumpversion
 
 ### Documentation
-- See [`DEVELOPMENT.md`](DEVELOPMENT.md) for complete workflow guide
-- See [`QUICK_REFERENCE.md`](QUICK_REFERENCE.md) for command reference
+- See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for complete workflow guide
+- See [`docs/QUICK_REFERENCE.md`](docs/QUICK_REFERENCE.md) for command reference
 - See [`scripts/`](scripts/) directory for automation tools
 
 ## Game Modes

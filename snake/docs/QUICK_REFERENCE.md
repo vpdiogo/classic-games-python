@@ -90,11 +90,11 @@ make build          # Try build again
 
 ```
 snake/
-├── scripts/        # Development automation
-├── snake_game/     # Main package
-├── tests/          # Unit tests
-├── dist/           # Built packages
-├── release/        # Release artifacts
-├── Makefile        # Quick commands
-└── DEVELOPMENT.md  # Detailed guide
+├── scripts/         # Automation scripts (setup, test, build, release)
+├── snake_game/      # Main game package source code
+├── tests/           # Unit and integration tests
+├── dist/            # Build outputs (wheels, tarballs, executables)
+├── release/         # Release bundles and artifacts
+├── Makefile         # Main entry for development commands
+└── docs/            # Documentation (including this quick reference)
 ```
