@@ -26,9 +26,14 @@ echo "🔍 Running quality checks before build..."
 echo "   ✅ Quality checks passed"
 
 # Get current version
-VERSION=$(python -c "from snake_game import __version__; print(__version__)")
-echo ""
-echo "📦 Building version: $VERSION"
+VERSION=$(python -c "
+import re
+with open('pyproject.toml', 'r') as f:
+    content = f.read()
+    version_match = re.search(r'version\s*=\s*[\"\'](.*?)[\"\']', content)
+    if version_match:
+        print(version_match.group(1))
+" 2>/dev/null)
 
 # Build Python package
 echo ""

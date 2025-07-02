@@ -45,8 +45,18 @@ if [ "$SKIP_GIT" = false ]; then
     fi
 fi
 
-# Get current version
-VERSION=$(python -c "from snake_game import __version__; print(__version__)")
+# Get current version from pyproject.toml directly
+VERSION=$(python -c "
+import re
+with open('pyproject.toml', 'r') as f:
+    content = f.read()
+    version_match = re.search(r'version\s*=\s*[\"\'](.*?)[\"\']', content)
+    if version_match:
+        print(version_match.group(1))
+    else:
+        print('unknown')
+" 2>/dev/null)
+
 echo "📋 Current version: $VERSION"
 
 # Run all quality checks
@@ -98,7 +108,7 @@ if [ -f dist/SnakeGame ]; then
 fi
 cp README.md "$RELEASE_DIR/"
 cp LICENSE "$RELEASE_DIR/"
-cp INSTALL.md "$RELEASE_DIR/"
+cp docs/INSTALL.md "$RELEASE_DIR/"
 cp CHANGELOG.md "$RELEASE_DIR/"
 
 # Create release archive

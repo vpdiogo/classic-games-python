@@ -1,3 +1,10 @@
+## [0.1.0-alpha.1] - 2025-07-02
+
+### Changes in this release:
+- Bug fixes and improvements
+- Updated documentation
+- Package optimizations
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -7,7 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.1.0-alpha.1] - 2025-07-01
+### Added
+- Initial alpha release preparation
+
+## [0.1.0-alpha.1] - 2025-07-02
 
 ### Added
 - ✨ Complete Snake game implementation with modern features
@@ -52,9 +62,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Package Structure
 - `snake_game/` - Main game package
-- `tests/` - Unit tests with 100% core functionality coverage
+- `tests/` - Unit tests with 52%+ core functionality coverage
 - `dist/` - Built packages for distribution
-- Build automation with setuptools and bumpversion
+- Build automation with setuptools and bump-my-version
 - GitHub Actions CI/CD pipeline ready
 
 ### Known Issues (Alpha)
