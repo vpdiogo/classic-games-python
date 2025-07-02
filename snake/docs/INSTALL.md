@@ -148,7 +148,7 @@ bump-my-version bump release
 # Automated release process
 ./scripts/release.sh
 # or
-python release.py
+make release
 ```
 
 ## Game Usage
