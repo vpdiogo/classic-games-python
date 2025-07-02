@@ -61,7 +61,7 @@ bumpversion release           # 0.1.0-alpha.1 → 0.1.0-beta.1
 ## 🛠️ Scripts de Automação
 
 ### `scripts/setup-dev.sh` - Setup do ambiente
-### `scripts/test.sh` - Suite completa de testes  
+### `scripts/test.sh` - Suite completa de testes
 ### `scripts/check.sh` - Verificações de qualidade
 ### `scripts/build.sh` - Build do pacote
 ### `scripts/release.sh` - Release completo

@@ -76,8 +76,8 @@ build-exe: ## Build only executable
 clean: ## Clean build artifacts
 	@echo "🧹 Cleaning build artifacts..."
 	@rm -rf build/ dist/ *.egg-info/
-	@find . -type d -name __pycache__ -delete
-	@find . -type f -name "*.pyc" -delete
+	@find . -path ./.venv -prune -o -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+	@find . -path ./.venv -prune -o -type f -name "*.pyc" -delete 2>/dev/null || true
 	@rm -rf .pytest_cache/
 	@rm -rf htmlcov/
 	@rm -rf .coverage

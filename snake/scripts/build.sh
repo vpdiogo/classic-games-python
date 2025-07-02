@@ -14,8 +14,9 @@ fi
 # Clean previous builds
 echo "🧹 Cleaning previous builds..."
 rm -rf build/ dist/ *.egg-info/
-find . -type d -name __pycache__ -delete
-find . -type f -name "*.pyc" -delete
+# Only clean __pycache__ in project directories, not in .venv
+find . -path ./.venv -prune -o -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+find . -path ./.venv -prune -o -type f -name "*.pyc" -delete 2>/dev/null || true
 echo "   ✅ Cleanup complete"
 
 # Run quality checks first

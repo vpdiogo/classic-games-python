@@ -124,7 +124,7 @@ echo "Testing entry points..."
 python -c "
 import subprocess
 import sys
-result = subprocess.run([sys.executable, '-m', 'snake_game.main', '--help'], 
+result = subprocess.run([sys.executable, '-m', 'snake_game.main', '--help'],
                        capture_output=True, text=True, timeout=5)
 # Entry point should run without errors (even if it shows game instead of help)
 print('✅ Entry point accessible')

@@ -5,7 +5,6 @@ Unit tests for high score system
 import unittest
 import tempfile
 import os
-from pathlib import Path
 from snake_game.high_score import HighScoreManager
 
 
@@ -15,7 +14,7 @@ class TestHighScoreManager(unittest.TestCase):
     def setUp(self):
         """Setup for each test with temporary file"""
         self.temp_file = tempfile.NamedTemporaryFile(
-            mode='w', delete=False, suffix='.json'
+            mode="w", delete=False, suffix=".json"
         )
         self.temp_file.close()
         self.temp_path = self.temp_file.name
@@ -124,7 +123,7 @@ class TestHighScoreManager(unittest.TestCase):
     def test_corrupted_file_handling(self):
         """Test handling of corrupted score file"""
         # Write invalid JSON to file
-        with open(self.temp_path, 'w') as f:
+        with open(self.temp_path, "w") as f:
             f.write("invalid json content")
 
         # Should handle gracefully and start fresh
@@ -132,5 +131,5 @@ class TestHighScoreManager(unittest.TestCase):
         self.assertEqual(len(manager.get_top_scores()), 0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

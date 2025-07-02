@@ -4,7 +4,7 @@ Input management system for Snake Game
 
 import pygame
 from enum import Enum
-from typing import Dict, Set, Optional, List
+from typing import Dict, Optional, Set, List
 from .game_objects import Direction
 
 
@@ -44,7 +44,7 @@ class InputHandler:
         }
 
         # Movement action to direction mapping
-        self.action_to_direction = {
+        self.action_to_direction: Dict[InputAction, Direction] = {
             InputAction.MOVE_UP: Direction.UP,
             InputAction.MOVE_DOWN: Direction.DOWN,
             InputAction.MOVE_LEFT: Direction.LEFT,

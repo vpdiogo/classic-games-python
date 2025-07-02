@@ -97,12 +97,12 @@ class TestInputHandler(unittest.TestCase):
         """Test processing of pygame events"""
         # Create mock events
         events = [
-            type('Event', (), {'type': pygame.KEYDOWN, 'key': pygame.K_UP})(),
+            type("Event", (), {"type": pygame.KEYDOWN, "key": pygame.K_UP})(),
             type(
-                'Event', (), {'type': pygame.KEYDOWN, 'key': pygame.K_SPACE}
+                "Event", (), {"type": pygame.KEYDOWN, "key": pygame.K_SPACE}
             )(),
             type(
-                'Event', (), {'type': pygame.KEYUP, 'key': pygame.K_DOWN}
+                "Event", (), {"type": pygame.KEYUP, "key": pygame.K_DOWN}
             )(),  # Should be ignored
         ]
 
@@ -113,5 +113,5 @@ class TestInputHandler(unittest.TestCase):
         self.assertEqual(actions, expected_actions)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

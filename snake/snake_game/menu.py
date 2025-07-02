@@ -3,7 +3,6 @@ Menu system for Snake Game
 """
 
 import pygame
-import sys
 from enum import Enum
 from typing import List, Optional
 from .config import CONFIG, COLORS
@@ -138,9 +137,7 @@ class MainMenu(BaseMenu):
         self.draw_menu_items()
 
         # Draw instructions
-        instruction_text = (
-            "Use ARROW KEYS or WASD to navigate, ENTER to select"
-        )
+        instruction_text = "Use ARROW KEYS or WASD to navigate, ENTER to select"
         instruction_surface = self.small_font.render(
             instruction_text, True, COLORS.GRAY
         )
@@ -353,7 +350,6 @@ class MenuManager:
     def update(self) -> None:
         """Update menu logic"""
         # Menus are mostly static, but could add animations here
-        pass
 
     def draw(self) -> None:
         """Draw current menu"""

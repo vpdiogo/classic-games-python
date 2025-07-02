@@ -5,7 +5,6 @@ Main game class for Snake Game
 import pygame
 import sys
 from enum import Enum
-from typing import Optional
 from .config import CONFIG, COLORS
 from .game_objects import Snake, Food
 from .input_handler import InputHandler, InputAction

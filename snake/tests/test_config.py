@@ -5,7 +5,6 @@ Unit tests for configuration system
 import unittest
 import tempfile
 import os
-import json
 from snake_game.config import GameConfig
 
 
@@ -15,7 +14,7 @@ class TestGameConfig(unittest.TestCase):
     def setUp(self):
         """Setup for each test"""
         self.temp_file = tempfile.NamedTemporaryFile(
-            mode='w', delete=False, suffix='.json'
+            mode="w", delete=False, suffix=".json"
         )
         self.temp_file.close()
         self.temp_path = self.temp_file.name
@@ -74,10 +73,10 @@ class TestGameConfig(unittest.TestCase):
         config = GameConfig()
 
         with self.assertRaises(ValueError):
-            config.update_setting('WINDOW_WIDTH', -100)
+            config.update_setting("WINDOW_WIDTH", -100)
 
         with self.assertRaises(ValueError):
-            config.update_setting('FPS', 0)
+            config.update_setting("FPS", 0)
 
     def test_grid_properties(self):
         """Test grid calculation properties"""
@@ -89,5 +88,5 @@ class TestGameConfig(unittest.TestCase):
         self.assertEqual(config.grid_height, expected_height)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

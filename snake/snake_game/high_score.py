@@ -4,9 +4,18 @@ High score management system
 
 import json
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import List, Optional, TypedDict
 from datetime import datetime
 from .logger import logger
+
+
+class ScoreEntry(TypedDict):
+    """Represents a single score entry"""
+
+    score: int
+    player: str
+    date: str
+    timestamp: float
 
 
 class HighScoreManager:
@@ -17,19 +26,18 @@ class HighScoreManager:
     ):
         self.file_path = Path(file_path)
         self.max_scores = max_scores
-        self.scores: List[Dict] = self._load_scores()
+        self.scores: List[ScoreEntry] = self._load_scores()
 
-    def _load_scores(self) -> List[Dict]:
+    def _load_scores(self) -> List[ScoreEntry]:
         """Load scores from file"""
         if not self.file_path.exists():
-            logger.info(
-                "High score file not found, starting with empty scores"
-            )
+            logger.info("High score file not found, starting with empty scores")
             return []
 
         try:
-            with open(self.file_path, 'r', encoding='utf-8') as f:
-                scores = json.load(f)
+            with open(self.file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                scores: List[ScoreEntry] = data
                 logger.info(f"Loaded {len(scores)} high scores")
                 return scores
         except (json.JSONDecodeError, IOError) as e:
@@ -39,7 +47,7 @@ class HighScoreManager:
     def _save_scores(self) -> bool:
         """Save scores to file"""
         try:
-            with open(self.file_path, 'w', encoding='utf-8') as f:
+            with open(self.file_path, "w", encoding="utf-8") as f:
                 json.dump(self.scores, f, indent=2, ensure_ascii=False)
             logger.info(f"Saved {len(self.scores)} high scores")
             return True
@@ -51,7 +59,7 @@ class HighScoreManager:
         """Add new score and return True if it's a new high score"""
         is_new_high_score = self.is_high_score(score)
 
-        new_score_entry = {
+        new_score_entry: ScoreEntry = {
             "score": score,
             "player": player_name,
             "date": datetime.now().isoformat(),
@@ -86,7 +94,7 @@ class HighScoreManager:
         """Get the lowest high score"""
         return self.scores[-1]["score"] if self.scores else 0
 
-    def get_top_scores(self, limit: Optional[int] = None) -> List[Dict]:
+    def get_top_scores(self, limit: Optional[int] = None) -> List[ScoreEntry]:
         """Get top scores with optional limit"""
         if limit is None:
             limit = self.max_scores

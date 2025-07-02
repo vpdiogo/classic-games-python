@@ -152,7 +152,7 @@ snake-game
 ## Platform Support
 
 - ✅ Linux
-- ✅ Windows  
+- ✅ Windows
 - ✅ macOS
 
 ## Known Issues

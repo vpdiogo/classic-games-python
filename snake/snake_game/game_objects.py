@@ -5,7 +5,7 @@ Core game objects for Snake Game
 import pygame
 import random
 from enum import Enum
-from typing import List, Tuple, Optional
+from typing import List, Tuple
 from .config import CONFIG, COLORS
 from .logger import logger
 
@@ -40,7 +40,7 @@ class Position:
         """String representation for debugging"""
         return f"Position({self.x}, {self.y})"
 
-    def __add__(self, direction: Direction) -> 'Position':
+    def __add__(self, direction: Direction) -> "Position":
         """Add a direction to get a new position"""
         dx, dy = direction.value
         return Position(self.x + dx, self.y + dy)
@@ -49,11 +49,11 @@ class Position:
         """Convert grid position to pixel coordinates"""
         return (self.x * CONFIG.GRID_SIZE, self.y * CONFIG.GRID_SIZE)
 
-    def distance_to(self, other: 'Position') -> float:
+    def distance_to(self, other: "Position") -> float:
         """Calculate Manhattan distance to another position"""
         return abs(self.x - other.x) + abs(self.y - other.y)
 
-    def wrap_around(self) -> 'Position':
+    def wrap_around(self) -> "Position":
         """Wrap position around game boundaries (teleport to opposite side)"""
         new_x = self.x % CONFIG.grid_width
         new_y = self.y % CONFIG.grid_height

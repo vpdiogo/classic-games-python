@@ -337,5 +337,5 @@ class TestFood(unittest.TestCase):
         self.assertEqual(self.food.position, expected_position)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

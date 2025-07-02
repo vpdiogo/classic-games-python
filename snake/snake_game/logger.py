@@ -4,7 +4,6 @@ Logging system for debugging and analytics
 
 import logging
 from pathlib import Path
-from typing import Optional
 
 
 class GameLogger:
@@ -27,7 +26,7 @@ class GameLogger:
 
         # Formatter
         formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
 
         # File handler

@@ -3,10 +3,9 @@ Centralized game configurations for Snake Game
 """
 
 from dataclasses import dataclass, field
-from typing import Tuple, Dict, Any
+from typing import List, Optional, Tuple, Any
 import json
 import os
-from pathlib import Path
 
 
 @dataclass
@@ -94,30 +93,30 @@ class GameConfig:
 
     def set_fps(self, fps: int) -> None:
         """Set FPS with validation"""
-        self.update_setting('FPS', fps)
+        self.update_setting("FPS", fps)
 
-    def save_to_file(self, filename: str = None) -> None:
+    def save_to_file(self, filename: Optional[str] = None) -> None:
         """Save configuration to JSON file"""
         if filename is None:
             filename = self._config_file
 
         config_dict = {
-            'WINDOW_WIDTH': self.WINDOW_WIDTH,
-            'WINDOW_HEIGHT': self.WINDOW_HEIGHT,
-            'GRID_SIZE': self.GRID_SIZE,
-            'FPS': self.FPS,
-            'WALL_COLLISION': self.WALL_COLLISION,
-            'POINTS_PER_FOOD': self.POINTS_PER_FOOD,
-            'INITIAL_SNAKE_LENGTH': self.INITIAL_SNAKE_LENGTH,
+            "WINDOW_WIDTH": self.WINDOW_WIDTH,
+            "WINDOW_HEIGHT": self.WINDOW_HEIGHT,
+            "GRID_SIZE": self.GRID_SIZE,
+            "FPS": self.FPS,
+            "WALL_COLLISION": self.WALL_COLLISION,
+            "POINTS_PER_FOOD": self.POINTS_PER_FOOD,
+            "INITIAL_SNAKE_LENGTH": self.INITIAL_SNAKE_LENGTH,
         }
 
         try:
-            with open(filename, 'w') as f:
+            with open(filename, "w") as f:
                 json.dump(config_dict, f, indent=2)
         except IOError as e:
             print(f"Warning: Could not save config to {filename}: {e}")
 
-    def load_from_file(self, filename: str = None) -> None:
+    def load_from_file(self, filename: Optional[str] = None) -> None:
         """Load configuration from JSON file"""
         if filename is None:
             filename = self._config_file
@@ -131,7 +130,7 @@ class GameConfig:
             return
 
         try:
-            with open(filename, 'r') as f:
+            with open(filename, "r") as f:
                 config_dict = json.load(f)
 
             # Update settings one by one with validation
@@ -153,17 +152,17 @@ class GameConfig:
         """Reset configuration to default values"""
         defaults = GameConfig()
         for field_name in [
-            'WINDOW_WIDTH',
-            'WINDOW_HEIGHT',
-            'GRID_SIZE',
-            'FPS',
-            'WALL_COLLISION',
-            'POINTS_PER_FOOD',
-            'INITIAL_SNAKE_LENGTH',
+            "WINDOW_WIDTH",
+            "WINDOW_HEIGHT",
+            "GRID_SIZE",
+            "FPS",
+            "WALL_COLLISION",
+            "POINTS_PER_FOOD",
+            "INITIAL_SNAKE_LENGTH",
         ]:
             setattr(self, field_name, getattr(defaults, field_name))
 
-    def get_speed_options(self) -> list[int]:
+    def get_speed_options(self) -> List[int]:
         """Get available speed options"""
         return [5, 8, 10, 15, 20, 25, 30]
 
