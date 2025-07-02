@@ -101,8 +101,8 @@ RELEASE_DIR="release/snake-game-$VERSION"
 mkdir -p "$RELEASE_DIR"
 
 # Copy release files
-cp dist/*.whl "$RELEASE_DIR/"
-cp dist/*.tar.gz "$RELEASE_DIR/"
+cp dist/*.whl "$RELEASE_DIR/" 2>/dev/null || true
+cp dist/*.tar.gz "$RELEASE_DIR/" 2>/dev/null || true
 if [ -f dist/SnakeGame ]; then
     cp dist/SnakeGame "$RELEASE_DIR/"
 fi
@@ -135,8 +135,11 @@ snake-game
 
 ### From Executable
 \`\`\`bash
-# Download and run the executable
-./SnakeGame
+# Linux
+./SnakeGame-linux
+
+# Windows
+SnakeGame-windows.exe
 \`\`\`
 
 ### From Source
@@ -161,9 +164,8 @@ snake-game
 
 ## Platform Support
 
-- ✅ Linux
-- ✅ Windows
-- ✅ macOS
+- ✅ Linux (executable: SnakeGame-linux)
+- ✅ Windows (executable: SnakeGame-windows.exe)
 
 ## Known Issues
 
@@ -218,10 +220,9 @@ if [ "$SKIP_GIT" = false ]; then
     echo "  2. Create and push git tag:"
     echo "     git tag v$VERSION"
     echo "     git push origin main --tags"
+    echo "  3. GitHub Actions will automatically create the release"
 fi
-echo "  3. Upload to PyPI (when ready):"
+echo "  4. Upload to PyPI (when ready):"
 echo "     twine upload dist/*.whl dist/*.tar.gz"
-echo "  4. Create GitHub release with release/$ARCHIVE_NAME"
-echo "  5. Share the release with users!"
 echo ""
 echo "Happy releasing! 🎮🚀"

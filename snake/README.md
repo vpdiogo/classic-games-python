@@ -11,6 +11,7 @@ A modern implementation of the classic Snake game built with Python and Pygame, 
 - ✅ Menu system working
 - ✅ Configuration system
 - ✅ High scores
+- ✅ Cross-platform executables (Linux, Windows)
 - ⚠️  May contain bugs
 - ⚠️  APIs may change
 - 🧪 Feedback welcome!
@@ -68,20 +69,24 @@ A modern implementation of the classic Snake game built with Python and Pygame, 
 
 ## Installation and Setup
 
-### Prerequisites
-- Python 3.8 or higher
-- Pygame library
+### 🚀 Quick Start (Executables)
+1. Go to [GitHub Releases](https://github.com/yourusername/classic-games-python/releases)
+2. Download for your platform:
+   - **Linux**: `SnakeGame-linux`
+   - **Windows**: `SnakeGame-windows.exe`
+3. Run directly - no installation needed!
 
-### Installation
-1. Clone or download the game files
-2. Install dependencies:
+### 📦 Python Package Installation
 ```bash
-pip install pygame
+# Download wheel from GitHub Releases
+pip install snake_game_classic-0.1.0a1-py3-none-any.whl
+snake-game
 ```
 
-### Running the Game
+### 🔧 Development Installation
 ```bash
-cd snake
+cd snake/
+pip install pygame  # or make dev-setup for full environment
 python run_snake.py
 ```
 
@@ -117,6 +122,7 @@ make release       # Full release process
 - **Pre-commit hooks** for quality assurance
 - **Build automation** for packages and executables
 - **Version management** with bumpversion
+- **GitHub Actions** for CI/CD with automatic releases
 
 ### Documentation
 - See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for complete workflow guide
@@ -233,9 +239,10 @@ The game is designed to be easily customizable:
 - **Robust error handling** with automatic recovery
 - **Memory-efficient** rendering with pygame optimization
 - **Cross-platform compatibility** (Windows, macOS, Linux)
+- **Automated CI/CD** with GitHub Actions for releases
 
 ---
 
 **Enjoy playing Snake!** 🐍
 
-For issues or suggestions, please check the code documentation or logs for troubleshooting information.
+For issues or suggestions, please check the code documentation, logs for troubleshooting information, or visit our [GitHub Releases](https://github.com/yourusername/classic-games-python/releases) for the latest versions.

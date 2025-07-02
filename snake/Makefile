@@ -89,6 +89,13 @@ release: ## Create a full release
 	@chmod +x scripts/release.sh
 	@./scripts/release.sh
 
+tag-and-push: ## Tag current version and push (triggers GitHub Actions)
+	@echo "🏷️ Creating and pushing tag..."
+	@VERSION=$$($(PYTHON) -c 'from snake_game import __version__; print(__version__)'); \
+    git tag "v$$VERSION" && \
+    git push origin "v$$VERSION" && \
+    echo "✅ Tag v$$VERSION pushed - GitHub Actions will handle the release"
+
 # Development helpers
 run: ## Run the game directly
 	@echo "🎮 Starting Snake Game..."

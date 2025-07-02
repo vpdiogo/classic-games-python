@@ -4,25 +4,37 @@
 
 ## Prerequisites
 
-- **Python 3.8+** (Required)
+- **Python 3.8+** (Required for package installation)
 - **pip** (Python package manager)
 - **pygame** library (will be installed automatically)
 
 ## Quick Installation & Usage
 
-### Method 1: Install from Package (Recommended)
-```bash
-# Navigate to the project directory
-cd snake/
+### Method 1: Download Executable (Easiest)
+Go to [GitHub Releases](https://github.com/yourusername/classic-games-python/releases) and download:
+- **Linux**: `SnakeGame-linux`
+- **Windows**: `SnakeGame-windows.exe`
 
-# Install the package
-pip install dist/snake_game_classic-0.1.0a1-py3-none-any.whl
+Then run directly:
+```bash
+# Linux
+chmod +x SnakeGame-linux
+./SnakeGame-linux
+
+# Windows
+SnakeGame-windows.exe
+```
+
+### Method 2: Install from Package (Recommended for Python users)
+```bash
+# Download from GitHub Releases
+pip install snake_game_classic-0.1.0a1-py3-none-any.whl
 
 # Run the game
 snake-game
 ```
 
-### Method 2: Development Mode (For Developers)
+### Method 3: Development Mode (For Developers)
 ```bash
 # Navigate to the project directory
 cd snake/
@@ -38,7 +50,7 @@ python run_snake.py
 python -m snake_game.main
 ```
 
-### Method 3: Direct Execution (Quick Test)
+### Method 4: Direct Execution (Quick Test)
 ```bash
 # Navigate to the project directory
 cd snake/
@@ -149,6 +161,14 @@ bump-my-version bump release
 ./scripts/release.sh
 # or
 make release
+
+# This will:
+# 1. Run quality checks
+# 2. Build packages and executables
+# 3. Update CHANGELOG.md
+# 4. Create release files
+# 5. Tag version (if git available)
+# 6. Push to trigger GitHub Actions
 ```
 
 ## Game Usage
@@ -201,6 +221,7 @@ snake/
 - ✅ **Modern packaging** with pyproject.toml
 - ✅ **Development tools** with pre-commit hooks
 - ✅ **Quality assurance** with automated testing
+- ✅ **Cross-platform executables** (Linux, Windows)
 
 ## Troubleshooting
 
@@ -230,10 +251,20 @@ rm -rf build/ dist/ *.egg-info/
 python -m build
 ```
 
+**Executable not running**
+```bash
+# Linux: Make sure it's executable
+chmod +x SnakeGame-linux
+
+# Windows: Run from command prompt if double-click fails
+SnakeGame-windows.exe
+```
+
 ### Getting Help
 
 - **Documentation**: See [`docs/DEVELOPMENT.md`](DEVELOPMENT.md) for detailed development guide
 - **Commands**: See [`docs/QUICK_REFERENCE.md`](QUICK_REFERENCE.md) for command reference
 - **Issues**: Report bugs in the project repository
+- **Releases**: Download latest from [GitHub Releases](https://github.com/yourusername/classic-games-python/releases)
 
 Enjoy playing! 🐍🎮
