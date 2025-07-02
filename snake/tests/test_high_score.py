@@ -6,7 +6,7 @@ import unittest
 import tempfile
 import os
 from pathlib import Path
-from src.high_score import HighScoreManager
+from snake_game.high_score import HighScoreManager
 
 
 class TestHighScoreManager(unittest.TestCase):

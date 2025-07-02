@@ -1,6 +1,19 @@
-# Snake Game
+# Snake Game (Alpha)
+
+🚧 **This is an alpha version** - Features are complete but may contain bugs. Please report any issues!
+
+## Version: 0.1.0-alpha.1
 
 A modern implementation of the classic Snake game built with Python and Pygame, featuring a complete menu system, configurable settings, high score tracking, and both wall collision and wrap-around gameplay modes.
+
+### Alpha Status
+- ✅ Core gameplay implemented
+- ✅ Menu system working
+- ✅ Configuration system
+- ✅ High scores
+- ⚠️  May contain bugs
+- ⚠️  APIs may change
+- 🧪 Feedback welcome!
 
 ## Features
 
@@ -71,6 +84,37 @@ pip install pygame
 cd snake
 python run_snake.py
 ```
+
+## Development Workflow
+
+### Quick Start for Developers
+```bash
+# Setup development environment
+make dev-setup
+
+# Daily development commands
+make test           # Run tests
+make check          # Quality checks
+make format         # Format code
+make run           # Test game
+
+# Build and release
+make build         # Build package + executable
+make release       # Full release process
+```
+
+### Development Tools
+- **Automated testing** with pytest and coverage reporting
+- **Code formatting** with Black
+- **Linting** with Flake8 and MyPy
+- **Pre-commit hooks** for quality assurance
+- **Build automation** for packages and executables
+- **Version management** with bumpversion
+
+### Documentation
+- See [`DEVELOPMENT.md`](DEVELOPMENT.md) for complete workflow guide
+- See [`QUICK_REFERENCE.md`](QUICK_REFERENCE.md) for command reference
+- See [`scripts/`](scripts/) directory for automation tools
 
 ## Game Modes
 
