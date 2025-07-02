@@ -1,16 +1,74 @@
 [build-system]
-requires = ["setuptools>=45", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
+[project]
+name = "snake-game-classic"
+version = "0.1.0-alpha.1"
+description = "A modern implementation of the classic Snake game with configurable modes (Alpha Version)"
+authors = [
+    {name = "Vitor", email = "your.email@example.com"},
+]
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "Topic :: Games/Entertainment :: Arcade",
+    "Topic :: Software Development :: Libraries :: pygame",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pygame>=2.1.0",
+]
+keywords = ["snake", "game", "pygame", "classic", "arcade"]
+
+[project.urls]
+"Homepage" = "https://github.com/yourusername/classic-games-python"
+"Bug Tracker" = "https://github.com/yourusername/classic-games-python/issues"
+"Source Code" = "https://github.com/yourusername/classic-games-python/tree/main/snake"
+"Documentation" = "https://github.com/yourusername/classic-games-python/blob/main/snake/README.md"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "black>=22.0",
+    "flake8>=4.0",
+    "mypy>=0.950",
+    "pre-commit>=2.0",
+    "build>=0.8",
+    "twine>=4.0",
+    "pyinstaller>=5.0",
+    "bump-my-version>=1.0",
+]
+
+[project.scripts]
+snake-game = "snake_game.main:main"
+
+[tool.setuptools]
+packages = ["snake_game", "snake_game.assets"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+snake_game = [
+    "assets/*",
+    "assets/**/*",
+]
+
+# For additional files that should be included in distributions,
+# MANIFEST.in is still the most reliable method for setuptools
 
 [tool.black]
-line-length = 80
-target-version = ['py38', 'py39', 'py310']
+line-length = 88
+target-version = ['py38']
 include = '\.pyi?$'
 extend-exclude = '''
 /(
@@ -26,6 +84,81 @@ extend-exclude = '''
 )/
 '''
 
-[tool.flake8]
-max-line-length = 80
-extend-ignore = ["E203", "W503"]
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--strict-markers --disable-warnings --cov=snake_game --cov-report=term-missing"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+]
+
+[tool.coverage.run]
+source = ["snake_game"]
+omit = [
+    "tests/*",
+    "setup.py",
+    "*/migrations/*",
+    "*/venv/*",
+    "*/virtualenv/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+show_error_codes = true
+strict_optional = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true
+
+[tool.bumpversion]
+current_version = "0.1.0-alpha.1"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)(\\-(?P<release>[a-z]+)\\.(?P<build>\\d+))?"
+serialize = [
+    "{major}.{minor}.{patch}-{release}.{build}",
+    "{major}.{minor}.{patch}",
+]
+search = "{current_version}"
+replace = "{new_version}"
+regex = false
+ignore_missing_version = false
+tag = true
+sign_tags = false
+tag_name = "v{new_version}"
+tag_message = "Bump version: {current_version} → {new_version}"
+allow_dirty = false
+commit = true
+message = "Bump version: {current_version} → {new_version}"
+commit_args = ""
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = "version = \"{current_version}\""
+replace = "version = \"{new_version}\""
+
+[[tool.bumpversion.files]]
+filename = "snake_game/__init__.py"
+search = "__version__ = \"{current_version}\""
+replace = "__version__ = \"{new_version}\""
+
+[tool.bumpversion.parts.release]
+optional_value = "final"
+values = ["alpha", "beta", "rc", "final"]
+
+[tool.bumpversion.parts.build]

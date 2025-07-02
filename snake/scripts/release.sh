@@ -6,8 +6,8 @@ set -e  # Exit on any error
 echo "🚀 Starting Snake Game release process..."
 
 # Check if we're in the right directory
-if [ ! -f "setup.py" ]; then
-    echo "❌ Error: setup.py not found. Run this script from the snake/ directory."
+if [ ! -f "pyproject.toml" ]; then
+    echo "❌ Error: pyproject.toml not found. Run this script from the snake/ directory."
     exit 1
 fi
 

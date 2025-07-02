@@ -55,11 +55,16 @@ repos:
             cd snake
             python -c "
             import snake_game
-            with open('setup.py') as f:
+            import re
+            with open('pyproject.toml') as f:
                 pyproject_content = f.read()
-            if snake_game.__version__ not in pyproject_content:
-                raise ValueError(f'Version mismatch: {snake_game.__version__} not found in pyproject.toml')
-            print(f'✅ Version {snake_game.__version__} is consistent')
+            version_match = re.search(r'version\s*=\s*[\"\'](.*?)[\"\']', pyproject_content)
+            if not version_match:
+                raise ValueError('Could not find version in pyproject.toml')
+            pyproject_version = version_match.group(1)
+            if snake_game.__version__ != pyproject_version:
+                raise ValueError(f'Version mismatch: snake_game.__version__={snake_game.__version__} != pyproject.toml version={pyproject_version}')
+            print(f'✅ Version {snake_game.__version__} is consistent between snake_game/__init__.py and pyproject.toml')
             "
 
 ci:

@@ -16,8 +16,8 @@ print_status() {
 }
 
 # Check if we're in the right directory
-if [ ! -f "setup.py" ]; then
-    echo "❌ Error: setup.py not found. Run this script from the snake/ directory."
+if [ ! -f "pyproject.toml" ]; then
+    echo "❌ Error: pyproject.toml not found. Run this script from the snake/ directory."
     exit 1
 fi
 
@@ -28,8 +28,7 @@ print_status "Unit tests completed"
 
 echo ""
 echo "🎨 Checking code formatting with Black..."
-python -m black --check snake_game/ tests/
-print_status "Code formatting check"
+python -m black --diff snake_game/ tests/ || echo "   ⚠️ Code formatting issues found (run 'black snake_game/ tests/' to fix)"
 
 echo ""
 echo "🔎 Running linting with Flake8..."

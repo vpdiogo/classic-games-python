@@ -1,6 +1,2 @@
-include README.md
-include LICENSE
-include requirements.txt
-recursive-include snake_game/assets *
-include snake_game/assets/.gitkeep
+# Essential game configuration
 include config.json

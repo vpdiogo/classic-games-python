@@ -7,7 +7,7 @@ echo "🚀 Setting up Snake Game development environment..."
 
 # Function to check if we're in the project root
 check_project_root() {
-    if [ ! -f "pyproject.toml" ] && [ ! -f "setup.py" ]; then
+    if [ ! -f "pyproject.toml" ]; then
         echo "❌ Please run this script from the project root directory"
         exit 1
     fi
