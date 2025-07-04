@@ -97,13 +97,13 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         cd snake/
-        pyinstaller --onefile --name SnakeGame-linux snake_game/main.py
+        pyinstaller --onefile --name SnakeGame-linux run_snake.py
 
     - name: Build Snake executable (Windows)
       if: matrix.os == 'windows-latest'
       run: |
         cd snake/
-        pyinstaller --onefile --name SnakeGame-windows.exe snake_game/main.py
+        pyinstaller --onefile --name SnakeGame-windows.exe run_snake.py
 
     - name: Upload Snake artifacts
       uses: actions/upload-artifact@v4
