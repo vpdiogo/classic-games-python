@@ -216,9 +216,9 @@ echo "🚀 Next steps:"
 if [ "$SKIP_GIT" = false ]; then
     echo "  1. Review CHANGELOG.md and commit changes:"
     echo "     git add ."
-    echo "     git commit -m 'Release v$VERSION'"
+    echo "     git commit -m 'Release snake-v$VERSION'"
     echo "  2. Create and push git tag:"
-    echo "     git tag v$VERSION"
+    echo "     git tag snake-v$VERSION"
     echo "     git push origin main --tags"
     echo "  3. GitHub Actions will automatically create the release"
 fi
