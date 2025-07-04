@@ -1,5 +1,11 @@
 name: Classic Games - Build and Release
 
+# Permissions needed for releases
+permissions:
+  contents: write
+  packages: write
+  actions: read
+
 on:
   push:
     tags:
@@ -136,7 +142,7 @@ jobs:
         ls -la release-files/
 
     - name: Create Snake Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: release-files/*
         generate_release_notes: true
