@@ -1,3 +1,10 @@
+## [0.1.0-alpha.1] - 2025-07-04
+
+### Changes in this release:
+- Bug fixes and improvements
+- Updated documentation
+- Package optimizations
+
 ## [0.1.0-alpha.1] - 2025-07-02
 
 ### Changes in this release:
