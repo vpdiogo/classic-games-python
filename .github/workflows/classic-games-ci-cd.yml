@@ -100,7 +100,7 @@ jobs:
         pyinstaller --onefile --name SnakeGame-windows.exe snake_game/main.py
 
     - name: Upload Snake artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: snake-game-${{ matrix.os }}
         path: |
@@ -115,13 +115,13 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Download Ubuntu artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: snake-game-ubuntu-latest
         path: dist-ubuntu/
 
     - name: Download Windows artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: snake-game-windows-latest
         path: dist-windows/
